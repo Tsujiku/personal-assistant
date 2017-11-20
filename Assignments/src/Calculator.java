@@ -8,6 +8,7 @@ public class Calculator {
 		boolean exitCalculator = false;
 
 		System.out.println("<Start Calculator>");
+		//
 		
 		do {
 			System.out.println("----Calculator menu----");

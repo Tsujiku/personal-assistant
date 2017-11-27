@@ -8,6 +8,7 @@ public class Calculator {
 		boolean exitCalculator = false;
 
 		System.out.println("<Start Calculator>");
+		//
 		
 		do {
 			System.out.println("----Calculator menu----");
@@ -40,13 +41,15 @@ public class Calculator {
 
 		System.out.println("<End Calculator>");
 		
+		//TODO 클래스 종료시키기
+		
 	}
 
 	public static void ArithmeticOperation() {
 		double firstOperand, secondOperand;
 		String arithmeticOperator;
 		double arithmeticResult;
-		boolean isContinue = true;
+		boolean isContinue = false;
 
 		do {
 			firstOperand = 0;
@@ -54,7 +57,7 @@ public class Calculator {
 			arithmeticOperator = null;
 			arithmeticResult = 0;
 			
-			System.out.print("Enter formula to calculate: ");
+			System.out.print("Enter formula: ");
 
 			Scanner formulaScan = new Scanner(System.in);
 			String inputStr = formulaScan.nextLine();
@@ -64,9 +67,9 @@ public class Calculator {
 			String[] inputFormula = inputStr.split(" ");
 
 			//Checking Input formula
-			//for(int i=0; i< inputFormula.length ;i++) {
-				//System.out.format("array[%d] = %s%n", i, inputFormula[i]);
-			//}
+			for(int i=0; i< inputFormula.length ;i++) {
+				System.out.format("array[%d] = %s%n", i, inputFormula[i]);
+			}
 
 			firstOperand = Double.parseDouble(inputFormula[0]);
 			secondOperand = Double.parseDouble(inputFormula[2]);
@@ -78,7 +81,7 @@ public class Calculator {
 				break;
 
 			case "-":
-				arithmeticResult = subtract(firstOperand, secondOperand);	
+				arithmeticResult = subtract(firstOperand, secondOperand);			
 				break;
 
 			case "*":
@@ -91,9 +94,9 @@ public class Calculator {
 				break;
 			
 			default:
-				System.out.println("Please Check your formula again.");
 				break;
 			}
+
 			System.out.format("The answer is: %f \n", arithmeticResult);
 			
 			System.out.println("Continue to Arithmetic?(y/n)");
@@ -101,13 +104,13 @@ public class Calculator {
 			String userSelection = continueScan.next();
 			
 			if(userSelection.equals("y")) {
-				isContinue = true;
-			}
-			else {
 				isContinue = false;
 			}
+			else {
+				isContinue = true;
+			}
 			
-		}while(isContinue);
+		}while(!isContinue);
 
 	}
 
@@ -135,68 +138,10 @@ public class Calculator {
 		return divisionResult;
 	}
 
+	
 	public static void UnitConversion() {
 		
-		int conversionSelection;
-		boolean exitConversion = false;
-		double inputNumber;
-		double resultNumber=0;
 		
-		do {
-			System.out.println("----Conversion menu----");
-			System.out.println("1. pound to kg");
-			System.out.println("2. kg to pound");
-			System.out.println("3. inch to cm");
-			System.out.println("4. cm to inch");
-			System.out.println("5. Fahrenheit to Celsius");
-			System.out.println("6. Celsius to Fahrenheit");
-			System.out.println("7. Exit conversion");
-			System.out.println("-----------------------");
-			System.out.print("Enter index to convert: ");
-
-			Scanner scan = new Scanner(System.in);
-			conversionSelection = scan.nextInt();
-
-			System.out.println("Enter the number you want to convert(Number Only): ");
-			inputNumber = scan.nextDouble();
-			
-			switch (conversionSelection) {
-			case 1:
-				resultNumber = poundTokg(inputNumber);
-				break;
-			case 2:
-				resultNumber = kgTopound(inputNumber);
-				break;
-			case 3:
-				resultNumber = inchTocm(inputNumber);
-				break;
-			case 4:
-				resultNumber = cmToinch(inputNumber);
-				break;
-			case 5:
-				resultNumber = FToC(inputNumber);
-				break;
-			case 6:
-				resultNumber = CToF(inputNumber);
-				break;
-			case 7:
-				exitConversion = true;
-				break;
-			default:
-				break;
-			}	
-			System.out.println("Result: "+ resultNumber);
-			System.out.println("Continue to conversion?(y/n): ");
-			String userSelection = scan.next();
-			
-			if(userSelection.equals("y")) {
-				exitConversion = false;
-			}
-			else {
-				exitConversion = true;
-			}
-			
-		}while(!exitConversion);
 	}
 
 	public static double poundTokg (double inputNumber) {

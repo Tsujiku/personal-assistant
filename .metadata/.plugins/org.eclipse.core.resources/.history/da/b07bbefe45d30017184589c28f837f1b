@@ -8,6 +8,7 @@ public class Calculator {
 		boolean exitCalculator = false;
 
 		System.out.println("<Start Calculator>");
+		//
 		
 		do {
 			System.out.println("----Calculator menu----");
@@ -40,6 +41,8 @@ public class Calculator {
 
 		System.out.println("<End Calculator>");
 		
+		//TODO 클래스 종료시키기
+		
 	}
 
 	public static void ArithmeticOperation() {
@@ -54,7 +57,7 @@ public class Calculator {
 			arithmeticOperator = null;
 			arithmeticResult = 0;
 			
-			System.out.print("Enter formula to calculate: ");
+			System.out.print("Enter formula: ");
 
 			Scanner formulaScan = new Scanner(System.in);
 			String inputStr = formulaScan.nextLine();
@@ -91,7 +94,7 @@ public class Calculator {
 				break;
 			
 			default:
-				System.out.println("Please Check your formula again.");
+				System.out.println("Check your formula.");
 				break;
 			}
 			System.out.format("The answer is: %f \n", arithmeticResult);
@@ -152,12 +155,12 @@ public class Calculator {
 			System.out.println("6. Celsius to Fahrenheit");
 			System.out.println("7. Exit conversion");
 			System.out.println("-----------------------");
-			System.out.print("Enter index to convert: ");
+			System.out.print("Enter the number on the menu: ");
 
 			Scanner scan = new Scanner(System.in);
 			conversionSelection = scan.nextInt();
 
-			System.out.println("Enter the number you want to convert(Number Only): ");
+			System.out.println("Enter the number you want to convert without any unit: ");
 			inputNumber = scan.nextDouble();
 			
 			switch (conversionSelection) {

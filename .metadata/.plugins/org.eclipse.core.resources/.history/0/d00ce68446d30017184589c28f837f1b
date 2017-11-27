@@ -8,6 +8,7 @@ public class Calculator {
 		boolean exitCalculator = false;
 
 		System.out.println("<Start Calculator>");
+		//
 		
 		do {
 			System.out.println("----Calculator menu----");
@@ -39,6 +40,8 @@ public class Calculator {
 		}while(!exitCalculator);
 
 		System.out.println("<End Calculator>");
+		
+		//TODO 클래스 종료시키기
 		
 	}
 

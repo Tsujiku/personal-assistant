@@ -19,7 +19,8 @@ public class FunctionChoice {
 			//MEMO
 		}
 		else if(choice == 2){
-			//calculator
+			Calculator c = new Calculator();
+			c.main(args);
 		}
 		else if(choice == 3){
 			//Account book

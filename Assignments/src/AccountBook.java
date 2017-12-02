@@ -2,21 +2,31 @@
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
 public class AccountBook {
-
-	public static int flag=0;
-	public static int index=0;
+	
+	static String FILENAME;
+	
 	public static BufferedWriter write;
 	public static BufferedReader read;
+	public static File file;
 	
-	public static ArrayList<String> AccountList;
-
+	public static List<String> AccountList;
+	
+	public static int flag=0;
+	public static int index=0;
+	
+	public static String priceStr;
+	public static String itemStr;
+	public static String dateStr;
+	
+	
+	
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-
+	
 		int menuSelection;
 		boolean exitAccountbook = false;
 
@@ -27,42 +37,41 @@ public class AccountBook {
 			//파일 내의 정보를 배열 리스트에 저장
 			
 			
-			File file = new File("C:\\Users\\sookmyung\\accountbook.txt");
+			file = new File("C:\\Users\\sookmyung\\accountbook.txt");
+			
+			AccountList = new ArrayList<String>();
 			
 			boolean isExists = file.exists(); 
 			if(isExists) { //파일 존재할 때 내용 읽어오기
 				
-				read = new BufferedReader(new FileReader("C:\\Users\\sookmyung\\accountbook.txt"));
-				String s = read.readLine();
-			    System.out.println(s);
-			   
-			    String[] results = s.split("\\s");
+				read = new BufferedReader(new FileReader(file));
+				String s;
+				int count = 1;
+				
+			    while ((s = read.readLine()) != null) {
+			    	AccountList.add(s);
+			    	System.out.println("index : " + count + "||" + AccountList.get(count-1).toString());
+			    	count++;
+			    }
+			    read.close();
+			    //String[] results = s.split("\\s");
 
-			    for (int i = 0; i < results.length; i++) {
-			    	System.out.println(results[i]);
-			    	}    
+			    //for (int i = 0; i < results.length; i++) {
+			    	//System.out.println(results[i]);
+			    	//}    
 		     
 			} 
 			
 			else { //파일 새로 생성하기 
 				
-				write = new BufferedWriter(new FileWriter("C:\\Users\\sookmyung\\accountbook.txt"));
+				System.out.println("not imformation");
+				
+				//write = new BufferedWriter(new FileWriter("C:\\Users\\sookmyung\\accountbook.txt"));
 			     
 			}  
 		
-			     /*String s = "출력 파일에 저장될 이런 저런 문자열입니다.";
-
-			      write.write(s); 
-			      write.newLine();
-			      write.write(s); 
-			      write.newLine();
-
-			      write.close();*/
-			      
 			
-			AccountList = new ArrayList<>();
-			//AccountList.add(arg0);
-			
+			//가계부 리스트 화면에 뿌려주기
 			System.out.println("----Accountbook menu----");
 			System.out.println("1. Insert");
 			System.out.println("2. Modify");
@@ -112,36 +121,33 @@ public class AccountBook {
 		flag = 0;
 
 		do {
-			write = new BufferedWriter(new FileWriter("C:\\Users\\sookmyung\\accountbook.txt"));
 			
-			// TODO 사용자 입력식 대응하기
+			// user가 입력할 때 띄어쓰기가 있는 상품명이여도 띄어쓰기 금지!!!!!!! 
+			// 날짜, 상품명, 가격 띄어쓰기 금지 (코드 자체적으로 파일에 " "를 넣어주며, 이 공백으로 split 이용하여 구분하기 때문)
 			System.out.print("date: ");
 
 			Scanner userdate = new Scanner(System.in);
 			String dateStr = userdate.nextLine();
 			
-		    write.write(dateStr); 
-		    write.write(" ");
-		  //  write.newLine();
+			AccountList.add(dateStr);
 
 
 			System.out.print("item: ");
 
 			Scanner useritem = new Scanner(System.in);
 			String itemStr = useritem.nextLine();
-			
-			write.write(itemStr); 
-			write.write(" ");
+		
+			AccountList.add(itemStr);
 
 			System.out.print("price: ");
 
 			Scanner userprice = new Scanner(System.in);
 			String priceStr = userprice.nextLine();
 			
-			write.write(priceStr); 
-			write.newLine();
+			AccountList.add(priceStr);
 			
-			write.close();
+			confirm();
+			
 			//확인할건지 취소할건지 물어보고 confirm, cancel 함수 호출
 			
 			
@@ -166,23 +172,24 @@ public class AccountBook {
 		System.out.println(index);
 	}
 
-	public static void Delete(int index) {
-		System.out.println(index);
+	public static void Delete(int index) throws IOException {
+		System.out.println(index-1);
+		confirm();
 	}
 	
-	public static int confirm() {
+	public static int confirm() throws IOException {
 		// 그럼 수정 함수에서의 호출은? 수정은 index 변화는 없지만 내용이
 		// update 됐으므로 confirm 함수를 이용해 변경된 내용을 파일에 저장해야함.
-		if (flag == 0)
-		{
-			//입력함수에서의 호출
-			index++;
+		write = new BufferedWriter(new FileWriter(file));
+		
+		String allcontents = dateStr + " " + itemStr + " " + priceStr;
+		
+		for(int count=0; count<AccountList.size(); count++) {
+				allcontents += AccountList.get(count).toString()+"\r\n";
 		}
-		else if (flag == 1)
-		{
-			//삭제함수에서의 호출
-			index--;
-		}
+		
+		write.write(allcontents);
+		write.close();
 		
 		return 0;
 	}

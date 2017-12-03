@@ -16,6 +16,7 @@ public class FunctionChoice {
 		System.out.print("Enter your option: ");
 		choice = scan.nextInt();
 		if(choice == 1){
+			Memo m = new Memo();
 			//MEMO
 		}
 		else if(choice == 2){
@@ -23,6 +24,7 @@ public class FunctionChoice {
 			c.main(args);
 		}
 		else if(choice == 3){
+			AccountBook a = new AccountBook();
 			//Account book
 		}
 		else if(choice == 4){

@@ -33,7 +33,7 @@ public class AccountBook {
 			// 가계부 내용을 편빕할 파일을 생성 및 호출
 			// 파일 내의 정보를 배열 리스트에 저장
 
-			file = new File("C:\\Users\\sookmyung\\accountbook.txt");
+			file = new File("C:\\sweng\\personal-assistant\\accountbook.txt");
 
 			AccountList = new ArrayList<String>();
 

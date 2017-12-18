@@ -16,7 +16,9 @@ public class Memo {
 		// file open
 
 		do {
+
 			file = new File("memo.txt");// 파일 여부
+
 			MemoList = new ArrayList<String>();
 			boolean isExists = file.exists();
 			if (isExists) { // 파일 존재할 때 내용 읽어오기

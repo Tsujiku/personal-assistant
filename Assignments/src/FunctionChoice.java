@@ -3,7 +3,9 @@ import java.util.Scanner;
 
 public class FunctionChoice {
 
-	public static void main(String[] args) throws IOException{
+
+	public static void main(String[] args) throws IOException {
+
 		// TODO Auto-generated method stub
 		Scanner scan = new Scanner(System.in);
 		int choice;
@@ -27,6 +29,7 @@ public class FunctionChoice {
 		}
 		else if(choice == 3){
 			AccountBook a = new AccountBook();
+			a.main(args);
 			//Account book
 		}
 		else if(choice == 4){

@@ -21,12 +21,17 @@ public class MemoTest {
 		MemoList.add("testContets");
 		assertTrue(MemoList.size() - memo.Delete(MemoList,1).size() == 1);
 	}
-/*	@Test
+	@Test
 	public void testModify() {
 		Memo memo = new Memo();
 		List<String> MemoList = new ArrayList<String>();
+		String beforeContents = "beforeContents";
+		String afterContents = "afterContents";
+		int index = 1;
 		
-	}*/
+		MemoList.add(beforeContents);
+		assertNotEquals(beforeContents,memo.Modify(MemoList, index, afterContents).get(index-1));
+	}
 
 	@Test
 	public void testConfirm() throws IOException{

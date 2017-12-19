@@ -1,8 +1,11 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class FunctionChoice {
 
-	public static void main(String[] args) {
+
+	public static void main(String[] args) throws IOException {
+
 		// TODO Auto-generated method stub
 		Scanner scan = new Scanner(System.in);
 		int choice;
@@ -17,6 +20,7 @@ public class FunctionChoice {
 		choice = scan.nextInt();
 		if(choice == 1){
 			Memo m = new Memo();
+			m.main(args);
 			//MEMO
 		}
 		else if(choice == 2){
@@ -25,6 +29,7 @@ public class FunctionChoice {
 		}
 		else if(choice == 3){
 			AccountBook a = new AccountBook();
+			a.main(args);
 			//Account book
 		}
 		else if(choice == 4){

@@ -1,60 +1,57 @@
 import static org.junit.Assert.*;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 
 public class AccountBooktest {
 
 	@Test
-	public void testModify() {
-		fail("Not yet implemented");
+	public void testInsert() throws IOException {
+		
+		List<String> AccountList = new ArrayList<String>();
+		String insertString = "1218" + " " + "감기약" + " " + "8300";
+		
+		int initalSize = AccountList.size();
+		int finalSize = AccountBook.Insert(AccountList, insertString).size();
+		assertTrue(initalSize < finalSize);
+		
+	}
+	
+	@Test
+	public void testModify() throws IOException {
+	
+		List<String> AccountList = new ArrayList<String>();
+		
+		AccountList.add("1117" + " " + "블루투스이어폰" + " " + "39900");
+		AccountList.add("1209" + " " + "화장품" + " " + "100000");
+		AccountList.add("1210" + " " + "코트" + " " + "249000");
+		AccountList.add("1217" + " " + "빵" + " " + "13000");
+		AccountList.add("1220" + " " + "침대" + " " + "650000");
+		
+		int random = (int) (Math.random() * AccountList.size()) + 1;
+	    String initalString = AccountList.get(random-1);
+        
+    
+        String updateString = "1219" + " " + "침대" + " " + "649000";
+        AccountBook.Modify(AccountList, random, updateString);
+        
+        String finalString = AccountList.get(random-1);
+        
+        assertNotEquals(initalString, finalString);
+	
 	}
 
 	@Test
 	public void testDelete() throws IOException {
 		
-		File file = new File("accountbook.txt");
-
 		List<String> AccountList = new ArrayList<String>();
-
-		boolean isExists = file.exists();
-		if (isExists) { // 파일 존재할 때 내용 읽어오기
-
-			BufferedReader read = new BufferedReader(new FileReader(file));
-			String s;
-			int count = 1;
-
-			while ((s = read.readLine()) != null) {
-				AccountList.add(s);
-				System.out.println("index : " + count + "||" + AccountList.get(count - 1).toString());
-				count++;
-			}
-			read.close();
-		}
-
-		else {
-			System.out.println("not imformation");
-		}
-
+		AccountList.add("1219" + " " + "침대" + " " + "649000");
 		
-		AccountBook acc = new AccountBook();
+		int initalSize = AccountList.size();
+		int finalSize = AccountBook.Delete(AccountList,1).size();
+		assertTrue(initalSize > finalSize);
 		
-		int length = AccountList.size();
-		System.out.println(length);
-		
-		int random = (int) (Math.random()*length)+1;
-		System.out.println(random);
-		
-		assertTrue(acc.Delete(random-1) < length);
-		
-		
-		//fail("Not yet implemented");
 	}
 
 }

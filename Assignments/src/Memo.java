@@ -5,23 +5,23 @@ import java.io.*;
 
 public class Memo {
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		// memo class
+		
 		File file;
 		List<String> MemoList;
 		int menuSelection;
 		boolean exitMemo = false;
 		int index;
+		String contents;
+		
 		System.out.println("\n<Start Memo>");
-		// file open
-
+		
 		do {
 
-			file = new File("memo.txt");// 파일 여부
+			file = new File("memo.txt");
 
 			MemoList = new ArrayList<String>();
 			boolean isExists = file.exists();
-			if (isExists) { // 파일 존재할 때 내용 읽어오기
+			if (isExists) { 
 
 				BufferedReader read = new BufferedReader(new FileReader(file));
 				String s;
@@ -29,21 +29,18 @@ public class Memo {
 				System.out.println("_________________________");
 				System.out.println("index\t | contents");
 				
-				
 				while ((s = read.readLine()) != null) {
-					// System.out.println(s);
-					MemoList.add(s);// 배열리스트에 저장
+					MemoList.add(s);
 					System.out.println(count + "\t | " + MemoList.get(count - 1).toString());
 					count++;
 				}
 				read.close();
 			}
 
-			else { // 파일 새로 생성하기
+			else {
 				System.out.println("not imformation");
 
 			}
-			// 메모리스트 화면에 뿌려주기
 			System.out.println("_________________________");
 			System.out.println("\n-------Memo menu-------");
 			System.out.println("1. Insert");
@@ -58,9 +55,7 @@ public class Memo {
 
 			switch (menuSelection) {
 			case 1:
-				System.out.print("write the contents : ");
-				Scanner scanContents = new Scanner(System.in);
-				String contents = scanContents.next();
+				contents = WriteContents();
 				MemoList = Insert(MemoList,contents);
 				isSave(MemoList,file);
 				break;
@@ -68,7 +63,8 @@ public class Memo {
 			case 2:
 				System.out.print("Enter index to Modify : ");
 				index = scan.nextInt();
-				MemoList = Modify(MemoList,index);
+				contents = WriteContents();
+				MemoList = Modify(MemoList,index,contents);
 				isSave(MemoList,file);
 				break;
 			case 3:
@@ -88,8 +84,13 @@ public class Memo {
 
 		System.out.println("<End Memo>");
 
-		// TODO 클래스 종료시키기
-
+	}
+	
+	public static String WriteContents(){
+		System.out.print("write the contents : ");
+		Scanner scanContents = new Scanner(System.in);
+		String contents = scanContents.next();
+		return contents;
 	}
 
 	public static List<String> Insert(List<String> MemoList,String contents){
@@ -99,10 +100,8 @@ public class Memo {
 		return MemoList;
 	}
 
-	public static List<String> Modify(List<String> MemoList,int index){
-		System.out.print("write modified contents : ");
-		Scanner scan = new Scanner(System.in);
-		String contents = scan.next();
+	public static List<String> Modify(List<String> MemoList,int index,String contents){
+		
 		MemoList.remove(index-1);
 		MemoList.add(index-1,contents);
 		
@@ -115,7 +114,7 @@ public class Memo {
 	}
 
 	public static void isSave(List<String> MemoList, File file) throws IOException {
-		System.out.println("Do you want to save?(y/n)");
+		System.out.print("Do you want to save?(y/n)");
 		Scanner issave = new Scanner(System.in);
 		String saveStr = issave.nextLine();
 		

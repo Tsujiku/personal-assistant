@@ -33,7 +33,7 @@ public class AccountBook {
 			// 가계부 내용을 편빕할 파일을 생성 및 호출
 			// 파일 내의 정보를 배열 리스트에 저장
 
-			file = new File("C:\\Users\\sookmyung\\accountbook.txt");
+			file = new File("accountbook.txt");
 
 			AccountList = new ArrayList<String>();
 
@@ -194,9 +194,11 @@ public class AccountBook {
 
 	}
 
-	public static void Delete(int index) throws IOException {
+	public static int Delete(int index) throws IOException {
 		boolean isContinue = false;
 		flag = 1; //confirm함수에 전달
+		
+		AccountList.remove(index - 1);
 
 		do {
 			// 확인할건지 취소할건지 물어보고 confirm, cancel 함수 호출
@@ -221,38 +223,24 @@ public class AccountBook {
 			}
 
 		} while (!isContinue);
+		
+		return AccountList.size();
 	}
 
-	public static int confirm() throws IOException {//파일에 저장하는 단계
+	public static void confirm() throws IOException {//파일에 저장하는 단계
 
 		write = new BufferedWriter(new FileWriter(file));
 
-		if (flag == 0) {// 입력, 수정함수에서 호출함을 의미
+		String allcontents = "";
 
-			String allcontents = "";
+	    for (int count = 0; count < AccountList.size(); count++) {
+	         allcontents += AccountList.get(count).toString() + "\r\n";
+	      }
 
-			for (int count = 0; count < AccountList.size(); count++) {
-				allcontents += AccountList.get(count).toString() + "\r\n";
-			}
+	      write.write(allcontents);
+	      write.close();
 
-			write.write(allcontents);
-			write.close();
-		} 
-		else if (flag == 1) { //삭제함수에서 호출함을 의미
-			AccountList.remove(index - 1);
-
-			String allcontents = "";
-
-			for (int count = 0; count < AccountList.size(); count++) {
-				allcontents += AccountList.get(count).toString() + "\r\n";
-			}
-
-			write.write(allcontents);
-			write.close();
-
-		}
-
-		return 0;
+	
 	}
 
 	public static int cancel() {

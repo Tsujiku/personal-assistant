@@ -5,7 +5,6 @@ import java.io.*;
 
 public class Memo {
 	public static void main(String[] args) throws IOException {
-		
 		File file;
 		List<String> MemoList;
 		int menuSelection;
@@ -14,33 +13,30 @@ public class Memo {
 		String contents;
 		
 		System.out.println("\n<Start Memo>");
-		
 		do {
-
 			file = new File("memo.txt");
-
 			MemoList = new ArrayList<String>();
 			boolean isExists = file.exists();
-			if (isExists) { 
 
-				BufferedReader read = new BufferedReader(new FileReader(file));
-				String s;
+			if (isExists) { 
+				BufferedReader fileread = new BufferedReader(new FileReader(file));
+				String readLine;
 				int count = 1;
+
 				System.out.println("_________________________");
 				System.out.println("index\t | contents");
-				
-				while ((s = read.readLine()) != null) {
-					MemoList.add(s);
+
+				while ((readLine = fileread.readLine()) != null) {
+					MemoList.add(readLine);
 					System.out.println(count + "\t | " + MemoList.get(count - 1).toString());
 					count++;
 				}
-				read.close();
+				fileread.close();
 			}
-
 			else {
 				System.out.println("not imformation");
-
 			}
+
 			System.out.println("_________________________");
 			System.out.println("\n-------Memo menu-------");
 			System.out.println("1. Insert");
@@ -50,8 +46,8 @@ public class Memo {
 			System.out.println("-----------------------");
 			System.out.print("Press 1/2/3/4: ");
 
-			Scanner scan = new Scanner(System.in);
-			menuSelection = scan.nextInt();
+			Scanner scanNumber = new Scanner(System.in);
+			menuSelection = scanNumber.nextInt();
 
 			switch (menuSelection) {
 			case 1:
@@ -62,17 +58,29 @@ public class Memo {
 
 			case 2:
 				System.out.print("Enter index to Modify : ");
-				index = scan.nextInt();
-				contents = WriteContents();
-				MemoList = Modify(MemoList,index,contents);
-				isSave(MemoList,file);
+				index = scanNumber.nextInt();
+				if(index>0 && index<=MemoList.size()){
+					contents = WriteContents();
+					MemoList = Modify(MemoList,index,contents);
+					isSave(MemoList,file);
+				}
+				else{
+					System.out.println("This index does not Exist");
+				}
 				break;
+
 			case 3:
 				System.out.print("Enter index to Delete : ");
-				index = scan.nextInt();
-				MemoList = Delete(MemoList,index);
-				isSave(MemoList,file);
+				index = scanNumber.nextInt();
+				if(index>0 && index<=MemoList.size()){
+					MemoList = Delete(MemoList,index);
+					isSave(MemoList,file);
+				}		
+				else{
+					System.out.println("This index does not Exist");
+				}
 				break;
+
 			case 4:
 				exitMemo = true;
 				break;
@@ -83,64 +91,60 @@ public class Memo {
 		} while (!exitMemo);
 
 		System.out.println("<End Memo>");
-
 	}
-	
+
 	public static String WriteContents(){
 		System.out.print("write the contents : ");
 		Scanner scanContents = new Scanner(System.in);
 		String contents = scanContents.next();
+
 		return contents;
 	}
 
 	public static List<String> Insert(List<String> MemoList,String contents){
-		
 		MemoList.add(contents);
-		
+
 		return MemoList;
 	}
 
 	public static List<String> Modify(List<String> MemoList,int index,String contents){
-		
 		MemoList.remove(index-1);
 		MemoList.add(index-1,contents);
-		
+
 		return MemoList;
 	}
 
 	public static List<String> Delete(List<String> MemoList,int index){
 		MemoList.remove(index - 1);
+
 		return MemoList;
 	}
 
 	public static void isSave(List<String> MemoList, File file) throws IOException {
 		System.out.print("Do you want to save?(y/n)");
-		Scanner issave = new Scanner(System.in);
-		String saveStr = issave.nextLine();
-		
-		if (saveStr.equals("y")) {
+		Scanner isSave = new Scanner(System.in);
+		String saveString = isSave.nextLine();
+
+		if (saveString.equals("y")) {
 			confirm(MemoList, file);
 		} else {
 			cancel();
 		}
-	
 	}
-	
+
 	public static long confirm(List<String> MemoList,File file) throws IOException {
-
-		BufferedWriter write = new BufferedWriter(new FileWriter(file));
-		long fileSize;
-		
-		String allcontents = "";
-
+		BufferedWriter writefile = new BufferedWriter(new FileWriter(file));
+		long fileSize;	
+		String allContents = "";
+ 
 		for (int count = 0; count < MemoList.size(); count++) {
-			allcontents += MemoList.get(count).toString() + "\r\n";
+			allContents += MemoList.get(count).toString() + "\r\n";
 		}
 		
-		write.write(allcontents);
-		write.close();
-		
+		writefile.write(allContents);
+		writefile.close();
 		fileSize = file.length();
+
 		return fileSize;
 	}
 
@@ -148,6 +152,4 @@ public class Memo {
 
 		return 0;
 	}
-	
-	
 }

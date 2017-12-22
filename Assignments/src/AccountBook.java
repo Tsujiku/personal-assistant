@@ -1,6 +1,3 @@
-
-// 자동줄맞춤 Ctrl+Shift+F
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,58 +5,40 @@ import java.util.Scanner;
 
 public class AccountBook {
 
-	static String FILENAME;
-
-	public static BufferedWriter write;
-	public static BufferedReader read;
-	public static File file;
-
-	public static List<String> AccountList;
-
-	public static int flag = 0;
-	public static int index = 0;
-
-	public static String priceStr;
-	public static String itemStr;
-	public static String dateStr;
-
 	public static void main(String[] args) throws IOException {
 
+		File file;
 		int menuSelection;
 		boolean exitAccountbook = false;
+		String contents;
+		int index;
 
 		System.out.println("<Start Accountbook>");
-
 		do {
-
 			file = new File("accountbook.txt");
-
-			AccountList = new ArrayList<String>();
-
+			List<String> AccountList = new ArrayList<String>();
 			boolean isExists = file.exists();
-			if (isExists) { // 파일 존재할 때 내용 읽어오기
 
-				read = new BufferedReader(new FileReader(file));
-				String s;
+			if (isExists) { // 파일 존재할 때 내용 읽어오기
+				BufferedReader readfile = new BufferedReader(new FileReader(file));
+				String readLine;
 				int count = 1;
 
-				System.out.println("_________________________");
-				System.out.println("index\t | contents");
+				System.out.println("___________________________________________________");
+				System.out.println("index\t | date \t | itme  \t | price");
 
-				while ((s = read.readLine()) != null) {
-					AccountList.add(s);
-					System.out.println(count + "\t | " + AccountList.get(count - 1).toString());
+				while ((readLine = readfile.readLine()) != null) {
+					AccountList.add(readLine);
+					String[] divideContents = readLine.split(" ");
+					System.out.println(count + "\t | " + divideContents[0] + " \t | " + divideContents[1] + "  \t | "
+							+ divideContents[2]);
 					count++;
 				}
-				read.close();
-			}
-
-			else {
+				readfile.close();
+			} else {
 				System.out.println("not imformation");
 			}
-
-			// 가계부 리스트 화면에 뿌려주기
-			System.out.println("_________________________");
+			System.out.println("___________________________________________________");
 			System.out.println("\n--- AccountBook menu---");
 			System.out.println("1. Insert");
 			System.out.println("2. Modify");
@@ -68,129 +47,119 @@ public class AccountBook {
 			System.out.println("-----------------------");
 			System.out.print("Press 1/2/3/4: ");
 
-			Scanner scan = new Scanner(System.in);
-			menuSelection = scan.nextInt();
+			Scanner scanNumber = new Scanner(System.in);
+			menuSelection = scanNumber.nextInt();
 
 			switch (menuSelection) {
 			case 1:
-				System.out.print("date: ");
-
-				Scanner userdate = new Scanner(System.in);
-				String dateStr = userdate.nextLine();
-
-				System.out.print("item: ");
-				Scanner useritem = new Scanner(System.in);
-				String itemStr = useritem.nextLine();
-
-				System.out.print("price: ");
-				Scanner userprice = new Scanner(System.in);
-				String priceStr = userprice.nextLine();
-
-				String contents = dateStr + " " + itemStr + " " + priceStr;
-
+				contents = writeContents();
 				AccountList = Insert(AccountList, contents);
 				isSave(AccountList, file);
 				break;
 
 			case 2:
 				System.out.print("Enter index to Modify : ");
-				index = scan.nextInt();
 
-				System.out.print("date: ");
-
-				Scanner userdate1 = new Scanner(System.in);
-				String dateStr1 = userdate1.nextLine();
-
-				System.out.print("item: ");
-				Scanner useritem1 = new Scanner(System.in);
-				String itemStr1 = useritem1.nextLine();
-
-				System.out.print("price: ");
-				Scanner userprice1 = new Scanner(System.in);
-				String priceStr1 = userprice1.nextLine();
-
-				String contents1 = dateStr1 + " " + itemStr1 + " " + priceStr1;
-
-				AccountList = Modify(AccountList, index, contents1);
-				isSave(AccountList, file);
+				index = scanNumber.nextInt();
+				if (index > 0 && index <= AccountList.size()) {
+					contents = writeContents();
+					AccountList = Modify(AccountList, index, contents);
+					isSave(AccountList, file);
+				} else {
+					System.out.println("This index does not Exist");
+				}
 				break;
 
 			case 3:
+
 				System.out.print("Enter index to Delete : ");
-				index = scan.nextInt();
-				AccountList = Delete(AccountList, index);
-				isSave(AccountList, file);
+
+				index = scanNumber.nextInt();
+				if (index > 0 && index <= AccountList.size()) {
+					AccountList = Delete(AccountList, index);
+					isSave(AccountList, file);
+				} else {
+					System.out.println("This index does not Exist");
+				}
 				break;
 
 			case 4:
 				exitAccountbook = true;
 				break;
-
+		
 			default:
 				break;
 			}
 		} while (!exitAccountbook);
-
 		System.out.println("<End Accountbook>");
 
 	}
 
-	public static List<String> Insert(List<String> AccountList, String contents) {
+	public static String writeContents() {
+		System.out.println("Don't use 'space bar'");
+		Scanner scanContents = new Scanner(System.in);
+		
+		System.out.print("date: ");
+		String dateString = scanContents.nextLine();
+		System.out.print("item: ");
+		String itemString = scanContents.nextLine();
+		System.out.print("price: ");
+		String priceString = scanContents.nextLine();
+		String contents = dateString + " " + itemString + " " + priceString;
+	
+		return contents;
 
+	}
+
+	public static List<String> Insert(List<String> AccountList, String contents) {
 		AccountList.add(contents);
 		return AccountList;
 
 	}
 
 	public static List<String> Modify(List<String> AccountList, int index, String contents) {
-
 		AccountList.remove(index - 1); // 수정할 레코드 삭제 (array라서 -1 해줌)
 		AccountList.add(index - 1, contents);
-		return AccountList;
 
+		return AccountList;
 	}
 
 	public static List<String> Delete(List<String> AccountList, int index) {
-
 		AccountList.remove(index - 1);
+
 		return AccountList;
 	}
 
 	public static void isSave(List<String> AccountList, File file) throws IOException {
-		System.out.println("Do you want to save?(y/n)");
-		Scanner issave = new Scanner(System.in);
-		String saveStr = issave.nextLine();
+	System.out.println("Do you want to save?(y/n)");
+		Scanner isSave = new Scanner(System.in);
+		String saveString = isSave.nextLine();
 
-		if (saveStr.equals("y")) {
+		if (saveString.equals("y")) {
 			confirm(AccountList, file);
 		} else {
 			cancel();
 		}
-
 	}
 
 	public static long confirm(List<String> AccountList, File file) throws IOException {
-
-		write = new BufferedWriter(new FileWriter(file));
+		BufferedWriter writefile = new BufferedWriter(new FileWriter(file));
 		long fileSize;
-
-		String allcontents = "";
+		String allContents = "";
 
 		for (int count = 0; count < AccountList.size(); count++) {
-			allcontents += AccountList.get(count).toString() + "\r\n";
+
+			allContents += AccountList.get(count).toString() + "\r\n";
+
 		}
-
-		write.write(allcontents);
-		write.close();
-
+		writefile.write(allContents);
+		writefile.close();
 		fileSize = file.length();
-		return fileSize;
 
+		return fileSize;
 	}
 
 	public static int cancel() {
-		// 호출한 곳으로 돌아가기
 		return 0;
 	}
-
 }

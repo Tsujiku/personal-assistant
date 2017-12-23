@@ -23,8 +23,9 @@ public class MemoTest {
 		Memo memo = new Memo();
 		List<String> MemoList = new ArrayList<String>();
 		MemoList.add("testContets");
+		int index = 1;
 		int beforeSize = MemoList.size();
-		int afterSize = memo.Delete(MemoList,1).size();
+		int afterSize = memo.Delete(MemoList,index).size();
 
 		assertTrue(beforeSize - afterSize  == 1);
 	}
@@ -40,7 +41,7 @@ public class MemoTest {
 		String afterContents = memo.Modify(MemoList, index, changeContents).get(index-1);
 
 		assertNotEquals(beforeContents,afterContents);
-}
+	}
  
 	@Test
 	public void testConfirm() throws IOException{

@@ -21,14 +21,14 @@ public class FunctionChoice {
 			if (choice == 1) {
 				Memo memo = new Memo();
 				memo.main(args);
-				// MEMO
+				
 			} else if (choice == 2) {
 				Calculator calculator = new Calculator();
 				calculator.main(args);
 			} else if (choice == 3) {
 				AccountBook accountbook = new AccountBook();
 				accountbook.main(args);
-				// Account book
+				
 			} else if (choice == 4) {
 				System.out.println("SofterWare End");
 				// EXIT
